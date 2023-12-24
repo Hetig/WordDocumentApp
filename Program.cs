@@ -15,36 +15,36 @@ namespace WordDocumentApp
 		public static void Main(string[] args)
 		{
 			threadsList = new List<Thread>()
-		{
-			new Thread(() =>
 			{
-				semaphore.WaitOne();
+				new Thread(() =>
+				{
+					semaphore.WaitOne();
 
-				app = new Application();
+					app = new Application();
 
-				semaphore.Release();
-			}),
-			new Thread(() =>
-			{
-				semaphore.WaitOne();
+					semaphore.Release();
+				}),
+				new Thread(() =>
+				{
+					semaphore.WaitOne();
 
-				document = app.Documents.Add();
-				var paragraph = document.Paragraphs.Add();
-				paragraph.Range.Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+					document = app.Documents.Add();
+					var paragraph = document.Paragraphs.Add();
+					paragraph.Range.Text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
-				semaphore.Release();
-			}),
-			new Thread(() =>
-			{
-				semaphore.WaitOne();
+					semaphore.Release();
+				}),
+				new Thread(() =>
+				{
+					semaphore.WaitOne();
 
-				document.SaveAs2($"{AppDomain.CurrentDomain.BaseDirectory}\\TestFile.doc");
-				document.Close();
-				app.Quit();
+					document.SaveAs2($"{AppDomain.CurrentDomain.BaseDirectory}\\TestFile.doc");
+					document.Close();
+					app.Quit();
 
-				semaphore.Release();
-			})
-		};
+					semaphore.Release();
+				})
+			};
 
 			threadsList.ForEach(thread =>
 			{
